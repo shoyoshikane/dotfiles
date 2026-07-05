@@ -13,7 +13,10 @@ in
   xdg.configFile."aerospace/aerospace.toml".source = mkLink ".config/aerospace/aerospace.toml";
   xdg.configFile."borders/bordersrc".source = mkLink ".config/borders/bordersrc";
   xdg.configFile."git/ignore".source = mkLink ".config/git/ignore";
-  xdg.configFile."karabiner/karabiner.json".source = mkLink ".config/karabiner/karabiner.json";
+  xdg.configFile."karabiner/karabiner.json" = {
+    source = mkLink ".config/karabiner/karabiner.json";
+    force = true;
+  };
   xdg.configFile."nvim".source = mkLink ".config/nvim";
   xdg.configFile."starship.toml".source = mkLink ".config/starship.toml";
   xdg.configFile."wezterm/wezterm.lua".source = mkLink ".config/wezterm/wezterm.lua";
