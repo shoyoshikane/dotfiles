@@ -1,0 +1,11 @@
+.DS_Store
+*.swp
+*.swo
+
+# Local/sensitive application state
+.aws/
+.kube/
+.terraform.d/
+.config/.claude/settings.local.json
+.config/AWSVPNClient/
+.config/raycast/

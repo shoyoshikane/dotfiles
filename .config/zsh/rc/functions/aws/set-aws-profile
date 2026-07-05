@@ -1,0 +1,46 @@
+#!/usr/bin/env zsh
+
+if ! command -v aws >/dev/null 2>&1; then
+  echo "aws command not found. Install AWS CLI first."
+  return 1
+fi
+
+if ! command -v fzf >/dev/null 2>&1; then
+  echo "fzf command not found. Install fzf first."
+  return 1
+fi
+
+_clear_aws_credential_env() {
+  unset AWS_ACCESS_KEY_ID
+  unset AWS_SECRET_ACCESS_KEY
+  unset AWS_SESSION_TOKEN
+  unset AWS_SECURITY_TOKEN
+  unset AWS_SESSION_EXPIRATION
+  unset AWS_CREDENTIAL_EXPIRATION
+}
+
+local selected_profile
+selected_profile=$(
+  command aws configure list-profiles |
+    sort |
+    fzf \
+      --prompt "Select AWS profile. Ctrl-C to unset. > " \
+      --height 50% \
+      --layout=reverse \
+      --border \
+      --preview-window 'right:55%' \
+      --preview 'profile={}; printf "profile: %s\n\n" "$profile"; aws configure list --profile "$profile" 2>/dev/null'
+)
+
+if [[ -z "$selected_profile" ]]; then
+  echo "Unset AWS profile."
+  unset AWS_PROFILE AWS_DEFAULT_PROFILE
+  _clear_aws_credential_env
+  return 0
+fi
+
+_clear_aws_credential_env
+export AWS_PROFILE="$selected_profile"
+export AWS_DEFAULT_PROFILE="$selected_profile"
+
+echo "AWS_PROFILE=$selected_profile"
