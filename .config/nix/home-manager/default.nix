@@ -1,7 +1,4 @@
-{ lib, ... }:
-let
-  username = "sho.yoshikane";
-in
+{ lib, username, ... }:
 {
   imports = [
     ./dotfiles.nix
