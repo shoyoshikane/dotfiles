@@ -27,9 +27,30 @@
     }:
     let
       system = "aarch64-darwin";
+      flakePath = "$HOME/dotfiles/.config/nix";
       hosts = {
         gift = ./hosts/gift;
       };
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      mkApp = name: description: text: {
+        type = "app";
+        program = "${
+          pkgs.writeShellApplication {
+            inherit name text;
+          }
+        }/bin/${name}";
+        meta.description = description;
+      };
+      currentHostScript = ''
+        host="$(scutil --get LocalHostName)"
+        if [ -z "$host" ]; then
+          echo "LocalHostName is not set." >&2
+          exit 1
+        fi
+      '';
       mkDarwinConfiguration = host: hostModule:
         darwin.lib.darwinSystem {
           inherit system;
@@ -75,6 +96,31 @@
                 environment.systemPackages = with pkgs; [
                   git
                   vim
+                  (writeShellApplication {
+                    name = "darwin-switch";
+                    text = ''
+                      sudo darwin-rebuild switch --flake "${flakePath}#${hostName}"
+                    '';
+                  })
+                  (writeShellApplication {
+                    name = "darwin-build";
+                    text = ''
+                      darwin-rebuild build --flake "${flakePath}#${hostName}"
+                    '';
+                  })
+                  (writeShellApplication {
+                    name = "darwin-check";
+                    text = ''
+                      darwin-rebuild check --flake "${flakePath}#${hostName}"
+                    '';
+                  })
+                  (writeShellApplication {
+                    name = "darwin-update";
+                    text = ''
+                      nix flake update --flake "${flakePath}"
+                      sudo darwin-rebuild switch --flake "${flakePath}#${hostName}"
+                    '';
+                  })
                 ];
 
                 home-manager = {
@@ -102,6 +148,29 @@
         };
     in
     {
+      apps.${system} = {
+        switch = mkApp "darwin-switch" "Apply the current host nix-darwin configuration" ''
+          ${currentHostScript}
+          sudo darwin-rebuild switch --flake "${flakePath}#$host"
+        '';
+
+        build = mkApp "darwin-build" "Build the current host nix-darwin configuration" ''
+          ${currentHostScript}
+          darwin-rebuild build --flake "${flakePath}#$host"
+        '';
+
+        check = mkApp "darwin-check" "Check the current host nix-darwin configuration" ''
+          ${currentHostScript}
+          darwin-rebuild check --flake "${flakePath}#$host"
+        '';
+
+        update = mkApp "darwin-update" "Update flake inputs and apply the current host configuration" ''
+          ${currentHostScript}
+          nix flake update --flake "${flakePath}"
+          sudo darwin-rebuild switch --flake "${flakePath}#$host"
+        '';
+      };
+
       darwinConfigurations = builtins.mapAttrs mkDarwinConfiguration hosts;
     };
 }

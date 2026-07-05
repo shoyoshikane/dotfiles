@@ -27,10 +27,13 @@ sudo -H /nix/var/nix/profiles/default/bin/nix run \
   switch --flake "$HOME/dotfiles/.config/nix#$host"
 ```
 
-After the initial setup, apply changes with:
+After the initial setup, use the flake apps:
 
 ```sh
-sudo darwin-rebuild switch --flake "$HOME/dotfiles/.config/nix#gift"
+darwin-switch
+darwin-build
+darwin-check
+darwin-update
 ```
 
 ## Layout
