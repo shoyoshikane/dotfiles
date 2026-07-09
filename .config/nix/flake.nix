@@ -60,6 +60,7 @@
             hostModule
             ./darwin/homebrew.nix
             ./darwin/keyboard.nix
+            ./darwin/defaults.nix
 
             {
               nixpkgs.hostPlatform = system;
