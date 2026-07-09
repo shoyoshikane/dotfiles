@@ -43,4 +43,20 @@ _clear_aws_credential_env
 export AWS_PROFILE="$selected_profile"
 export AWS_DEFAULT_PROFILE="$selected_profile"
 
+# SSO プロファイルなら sso login する
+# - sso_session: 新形式 (aws configure sso-session)
+# - sso_start_url: レガシー形式 (aws configure sso)
+# 有効なセッションが残っている場合 aws sso login はブラウザを開かず即終了するので毎回呼んでよい
+local sso_session sso_start_url
+sso_session=$(aws configure get sso_session --profile "$selected_profile" 2>/dev/null)
+sso_start_url=$(aws configure get sso_start_url --profile "$selected_profile" 2>/dev/null)
+
+if [[ -n "$sso_session" || -n "$sso_start_url" ]]; then
+  if ! aws sso login --profile "$selected_profile"; then
+    echo "SSO login failed for profile '$selected_profile'"
+    return 1
+  fi
+fi
+
 echo "AWS_PROFILE=$selected_profile"
+aws sts get-caller-identity
