@@ -79,6 +79,7 @@
             ./modules/host-spec.nix
             hostModule
             ./darwin/aerospace.nix
+            ./darwin/borders.nix
             ./darwin/homebrew.nix
             ./darwin/keyboard.nix
             ./darwin/defaults.nix

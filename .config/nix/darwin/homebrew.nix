@@ -13,14 +13,12 @@
     };
 
     taps = [
-      "felixkratz/formulae"
       "hashicorp/tap"
     ];
 
     brews = [
       "argocd"
       "awscli"
-      "borders"
       "fzf"
       "hashicorp/tap/terraform"
       "helm"
