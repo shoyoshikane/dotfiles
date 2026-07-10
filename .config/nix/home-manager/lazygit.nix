@@ -3,7 +3,6 @@
     enable = true;
     settings = {
       gui = {
-        language = "ja";
         showIcons = true;
       };
       git = {
