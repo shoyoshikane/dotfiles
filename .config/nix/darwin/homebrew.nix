@@ -12,21 +12,8 @@
       };
     };
 
-    taps = [
-      "hashicorp/tap"
-    ];
-
     brews = [
-      "argocd"
-      "awscli"
-      "fzf"
-      "hashicorp/tap/terraform"
-      "helm"
-      "kubernetes-cli"
-      "neovim"
       "node"
-      "tree"
-      "zoxide"
     ];
 
     casks = [

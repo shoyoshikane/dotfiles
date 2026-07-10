@@ -43,8 +43,9 @@ darwin-update
 - `.config/nix/modules/host-spec.nix`: shared host metadata options
 - `.config/nix/darwin/aerospace.nix`: AeroSpace service
 - `.config/nix/darwin/borders.nix`: JankyBorders service
-- `.config/nix/darwin/homebrew.nix`: Homebrew formulae, casks, and taps
+- `.config/nix/darwin/homebrew.nix`: Homebrew formulae and casks
 - `.config/nix/home-manager/dotfiles.nix`: symlinks for dotfiles
+- `.config/nix/home-manager/packages.nix`: user CLI packages
 
 ## Adding A Host
 

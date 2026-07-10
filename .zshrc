@@ -2,8 +2,7 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 
 if command -v fzf >/dev/null 2>&1; then
-  source "$(brew --prefix fzf)/shell/key-bindings.zsh"
-  source "$(brew --prefix fzf)/shell/completion.zsh"
+  source <(fzf --zsh)
 fi
 
 fpath=("$HOME/.config/zsh/rc/functions/aws" $fpath)
