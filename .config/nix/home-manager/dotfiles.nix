@@ -6,12 +6,10 @@ in
 {
   home.file.".zprofile".source = mkLink ".zprofile";
   home.file.".zshrc".source = mkLink ".zshrc";
-  home.file.".gitconfig".source = mkLink ".gitconfig";
   home.file."commitlint.config.cjs".source = mkLink "commitlint.config.cjs";
   home.file."Library/Application Support/Code/User/settings.json".source =
     mkLink ".config/vscode/settings.json";
 
-  xdg.configFile."git/ignore".source = mkLink ".config/git/ignore";
   xdg.configFile."karabiner/karabiner.json" = {
     source = mkLink ".config/karabiner/karabiner.json";
     force = true;

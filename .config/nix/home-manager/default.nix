@@ -2,6 +2,7 @@
 {
   imports = [
     ./dotfiles.nix
+    ./git.nix
     ./lazygit.nix
     ./packages.nix
   ];
