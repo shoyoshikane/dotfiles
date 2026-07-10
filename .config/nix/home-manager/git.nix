@@ -11,5 +11,8 @@
     ignores = [ "**/.claude/settings.local.json" ];
   };
 
-  programs.delta.enable = true;
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+  };
 }
