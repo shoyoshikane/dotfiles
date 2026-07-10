@@ -4,8 +4,6 @@ let
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
 in
 {
-  home.file.".zprofile".source = mkLink ".zprofile";
-  home.file.".zshrc".source = mkLink ".zshrc";
   home.file."commitlint.config.cjs".source = mkLink "commitlint.config.cjs";
   home.file."Library/Application Support/Code/User/settings.json".source =
     mkLink ".config/vscode/settings.json";

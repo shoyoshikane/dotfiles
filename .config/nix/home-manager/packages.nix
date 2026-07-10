@@ -2,10 +2,8 @@
 {
   home.packages = with pkgs; [
     # Shell tools
-    fzf
     ripgrep
     tree
-    zoxide
 
     # Git tools
     gh

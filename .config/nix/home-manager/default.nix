@@ -2,9 +2,13 @@
 {
   imports = [
     ./dotfiles.nix
+    ./fzf.nix
     ./git.nix
     ./lazygit.nix
     ./packages.nix
+    ./starship.nix
+    ./zoxide.nix
+    ./zsh.nix
   ];
 
   home.username = username;
