@@ -1,5 +1,5 @@
-# Place a copy of this config to ~/.aerospace.toml
-# After that, you can edit ~/.aerospace.toml to your liking
+# This file is rendered by nix-darwin's services.aerospace module.
+# Run darwin-switch after editing it.
 
 # Config version for compatibility and deprecations
 # See: https://nikitabobko.github.io/AeroSpace/guide#config-version
@@ -8,14 +8,13 @@ config-version = 2
 
 # You can use it to add commands that run after AeroSpace startup.
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = ['exec-and-forget borders']
+after-startup-command = []
 
-# Start AeroSpace at login
-start-at-login = true
+# AeroSpace is started at login by a nix-darwin launchd agent.
+start-at-login = false
 
-# Automatically reload the config when the config file is saved
-# After setting this to true, reload once manually to start the auto-reloading
-auto-reload-config = true
+# Configuration changes are applied by darwin-switch.
+auto-reload-config = false
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true

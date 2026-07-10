@@ -15,7 +15,6 @@
     taps = [
       "felixkratz/formulae"
       "hashicorp/tap"
-      "nikitabobko/tap"
     ];
 
     brews = [
@@ -33,7 +32,6 @@
     ];
 
     casks = [
-      "aerospace"
       "aws-vpn-client"
       "claude"
       "claude-code"

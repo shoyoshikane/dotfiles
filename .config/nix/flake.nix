@@ -78,6 +78,7 @@
           modules = [
             ./modules/host-spec.nix
             hostModule
+            ./darwin/aerospace.nix
             ./darwin/homebrew.nix
             ./darwin/keyboard.nix
             ./darwin/defaults.nix

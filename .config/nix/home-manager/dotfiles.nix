@@ -10,7 +10,6 @@ in
   home.file."Library/Application Support/Code/User/settings.json".source =
     mkLink ".config/vscode/settings.json";
 
-  xdg.configFile."aerospace/aerospace.toml".source = mkLink ".config/aerospace/aerospace.toml";
   xdg.configFile."borders/bordersrc".source = mkLink ".config/borders/bordersrc";
   xdg.configFile."git/ignore".source = mkLink ".config/git/ignore";
   xdg.configFile."karabiner/karabiner.json" = {

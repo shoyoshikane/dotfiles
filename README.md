@@ -41,6 +41,7 @@ darwin-update
 - `.config/nix/flake.nix`: entrypoint
 - `.config/nix/hosts/gift/default.nix`: host profile
 - `.config/nix/modules/host-spec.nix`: shared host metadata options
+- `.config/nix/darwin/aerospace.nix`: AeroSpace service
 - `.config/nix/darwin/homebrew.nix`: Homebrew formulae, casks, and taps
 - `.config/nix/home-manager/dotfiles.nix`: symlinks for dotfiles
 
