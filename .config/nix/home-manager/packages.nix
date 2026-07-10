@@ -10,7 +10,6 @@
     # Git tools
     gh
     ghq
-    lazygit
 
     # Editor
     neovim
