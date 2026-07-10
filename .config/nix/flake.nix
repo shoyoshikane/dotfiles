@@ -51,6 +51,26 @@
           exit 1
         fi
       '';
+      mkDarwinUpdateScript = host: ''
+        repo_root="$(git -C "${flakePath}" rev-parse --show-toplevel)"
+        lock_path=".config/nix/flake.lock"
+
+        if [ -n "$(git -C "$repo_root" status --porcelain -- "$lock_path")" ]; then
+          echo "flake.lock already has uncommitted changes." >&2
+          echo "Commit or discard them before running darwin-update." >&2
+          exit 1
+        fi
+
+        nix flake update --flake "${flakePath}"
+        sudo darwin-rebuild switch --flake "${flakePath}#${host}"
+
+        if [ -n "$(git -C "$repo_root" status --porcelain -- "$lock_path")" ]; then
+          git -C "$repo_root" add -- "$lock_path"
+          git -C "$repo_root" commit --only -m "chore: update flake.lock via darwin-update" -- "$lock_path"
+        else
+          echo "flake.lock is already up to date; no commit created."
+        fi
+      '';
       mkDarwinConfiguration = host: hostModule:
         darwin.lib.darwinSystem {
           inherit system;
@@ -118,10 +138,7 @@
                   })
                   (writeShellApplication {
                     name = "darwin-update";
-                    text = ''
-                      nix flake update --flake "${flakePath}"
-                      sudo darwin-rebuild switch --flake "${flakePath}#${hostName}"
-                    '';
+                    text = mkDarwinUpdateScript hostName;
                   })
                 ];
 
@@ -168,8 +185,7 @@
 
         update = mkApp "darwin-update" "Update flake inputs and apply the current host configuration" ''
           ${currentHostScript}
-          nix flake update --flake "${flakePath}"
-          sudo darwin-rebuild switch --flake "${flakePath}#$host"
+          ${mkDarwinUpdateScript "$host"}
         '';
       };
 
