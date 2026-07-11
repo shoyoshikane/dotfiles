@@ -15,5 +15,7 @@ in
   xdg.configFile."nvim".source = mkLink ".config/nvim";
   xdg.configFile."starship.toml".source = mkLink ".config/starship.toml";
   xdg.configFile."wezterm/wezterm.lua".source = mkLink ".config/wezterm/wezterm.lua";
+  xdg.configFile."zsh/rc/bindkey.zsh".source = mkLink ".config/zsh/rc/bindkey.zsh";
   xdg.configFile."zsh/rc/functions/aws".source = mkLink ".config/zsh/rc/functions/aws";
+  xdg.configFile."zsh/rc/functions/ghq".source = mkLink ".config/zsh/rc/functions/ghq";
 }

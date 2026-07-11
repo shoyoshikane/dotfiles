@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+
+if ! command -v ghq >/dev/null 2>&1; then
+  echo "ghq command not found. Install ghq first."
+  return 1
+fi
+
+if ! command -v fzf >/dev/null 2>&1; then
+  echo "fzf command not found. Install fzf first."
+  return 1
+fi
+
+if ! command -v bat >/dev/null 2>&1; then
+  echo "bat command not found. Install bat first."
+  return 1
+fi
+
+local selected_path
+selected_path=$(
+  command ghq list -p |
+    fzf \
+      --prompt "Select ghq repo. Ctrl-C to cancel. > " \
+      --height 50% \
+      --layout=reverse \
+      --border \
+      --preview-window 'right:60%:wrap' \
+      --preview 'repo={}; readme=$(find "$repo" -maxdepth 1 -type f -iname "README*" -print -quit); if [[ -n "$readme" ]]; then bat --color=always --style=header,grid --line-range :80 "$readme"; else printf "README not found\n"; fi'
+)
+
+if [[ -z "$selected_path" ]]; then
+  return 0
+fi
+
+cd "$selected_path" || return 1
