@@ -1,5 +1,7 @@
 { config, ... }:
 {
+  home.sessionVariables.XDG_CONFIG_HOME = "${config.home.homeDirectory}/.config";
+
   programs.zsh = {
     enable = true;
     dotDir = config.home.homeDirectory;
