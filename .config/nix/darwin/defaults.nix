@@ -26,4 +26,9 @@
   system.defaults.menuExtraClock.ShowAMPM = true;
 
   system.defaults.controlcenter.BatteryShowPercentage = true;
+
+  environment.etc."pam.d/sudo_local".text = ''
+    # auth       sufficient     pam_tid.so
+    auth       sufficient     pam_tid.so
+  '';
 }
