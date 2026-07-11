@@ -15,6 +15,8 @@
     };
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =
@@ -23,6 +25,7 @@
       darwin,
       home-manager,
       nix-homebrew,
+      llm-agents,
       ...
     }:
     let
@@ -33,6 +36,7 @@
       };
       pkgs = import nixpkgs {
         inherit system;
+        overlays = [ llm-agents.overlays.default ];
         config.allowUnfree = true;
       };
       mkApp = name: description: text: {
@@ -87,6 +91,7 @@
             {
               nixpkgs.hostPlatform = system;
               nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = [ llm-agents.overlays.default ];
             }
 
             ({ config, pkgs, ... }:

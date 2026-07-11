@@ -14,14 +14,11 @@
 
     brews = [
       "czg"
-      "node"
     ];
 
     casks = [
       "aws-vpn-client"
       "claude"
-      "claude-code"
-      "codex"
       "font-hackgen-nerd"
       "karabiner-elements"
       "keycastr"

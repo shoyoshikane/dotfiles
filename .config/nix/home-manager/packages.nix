@@ -2,8 +2,16 @@
 {
   home.packages = with pkgs; [
     # Shell tools
+    bat
+    bottom
+    eza
+    fd
+    hyperfine
+    jq
     ripgrep
+    tlrc
     tree
+    yazi
 
     # Git tools
     gh
@@ -11,6 +19,26 @@
 
     # Editor
     neovim
+
+    # Formatting and validation
+    actionlint
+    lefthook
+    nixfmt
+    rumdl
+    shellcheck
+    shfmt
+    stylua
+    taplo
+    typos
+    yamlfmt
+
+    # Secret management
+    age
+    sops
+
+    # AI coding agents
+    llm-agents.claude-code
+    llm-agents.codex
 
     # Infrastructure tools
     argocd
