@@ -1,5 +1,16 @@
 { ... }:
 {
+  nix.optimise.automatic = true;
+  nix.gc = {
+    automatic = true;
+    interval = {
+      Weekday = 7;
+      Hour = 3;
+      Minute = 0;
+    };
+    options = "--delete-older-than 30d";
+  };
+
   system.defaults.screencapture.target = "clipboard";
 
   system.defaults.trackpad.Clicking = true;
