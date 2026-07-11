@@ -1,0 +1,8 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      run: nix run ./.config/nix#formatter.aarch64-darwin -- --fail-on-change
+    flake-check:
+      glob: "*.nix"
+      run: nix flake check --no-build ./.config/nix

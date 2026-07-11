@@ -17,6 +17,16 @@
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -26,6 +36,8 @@
       home-manager,
       nix-homebrew,
       llm-agents,
+      sops-nix,
+      treefmt-nix,
       ...
     }:
     let
@@ -39,6 +51,7 @@
         overlays = [ llm-agents.overlays.default ];
         config.allowUnfree = true;
       };
+      treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
       mkApp = name: description: text: {
         type = "app";
         program = "${
@@ -75,7 +88,8 @@
           echo "flake.lock is already up to date; no commit created."
         fi
       '';
-      mkDarwinConfiguration = host: hostModule:
+      mkDarwinConfiguration =
+        host: hostModule:
         darwin.lib.darwinSystem {
           inherit system;
 
@@ -94,7 +108,8 @@
               nixpkgs.overlays = [ llm-agents.overlays.default ];
             }
 
-            ({ config, pkgs, ... }:
+            (
+              { config, pkgs, ... }:
               let
                 username = config.hostSpec.username;
                 hostName = config.hostSpec.hostName;
@@ -154,7 +169,7 @@
                   useUserPackages = true;
                   backupFileExtension = "backup";
                   extraSpecialArgs = {
-                    inherit username;
+                    inherit sops-nix username;
                   };
                   users.${username} = import ./home-manager;
                 };
@@ -166,7 +181,8 @@
                   autoMigrate = true;
                   mutableTaps = true;
                 };
-              })
+              }
+            )
 
             home-manager.darwinModules.home-manager
             nix-homebrew.darwinModules.nix-homebrew
@@ -174,6 +190,9 @@
         };
     in
     {
+      formatter.${system} = treefmtEval.config.build.wrapper;
+      checks.${system}.formatting = treefmtEval.config.build.check ../..;
+
       apps.${system} = {
         switch = mkApp "darwin-switch" "Apply the current host nix-darwin configuration" ''
           ${currentHostScript}
