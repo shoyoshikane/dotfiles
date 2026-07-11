@@ -19,7 +19,8 @@
     };
     shellAliases = {
       awsp = "set-aws-profile";
-      ll = "ls -la";
+      ll = "eza -la --git";
+      tree = "eza --tree";
     };
     profileExtra = ''
       eval $(/opt/homebrew/bin/brew shellenv)

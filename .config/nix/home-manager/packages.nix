@@ -10,7 +10,6 @@
     jq
     ripgrep
     tlrc
-    tree
     yazi
 
     # Git tools
