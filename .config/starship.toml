@@ -3,6 +3,7 @@ $directory\
 $git_branch\
 $git_status\
 $aws\
+${custom.kubernetes}\
 $fill\
 $cmd_duration\
 $time\
@@ -43,6 +44,14 @@ style = "bold fg:#ffcb6b"
 
 [gcloud]
 disabled = true
+
+# Enable per repository with: touch "$(git rev-parse --git-path show-kubernetes-context)"
+[custom.kubernetes]
+command = "kubectl config current-context 2>/dev/null"
+when = 'test -f "$(git rev-parse --git-path show-kubernetes-context 2>/dev/null)"'
+symbol = "󱃾 "
+style = "bold cyan"
+format = '[$symbol$output]($style) '
 
 [git_branch]
 symbol = ""
