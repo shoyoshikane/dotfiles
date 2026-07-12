@@ -9,3 +9,6 @@
 .config/.claude/settings.local.json
 .config/AWSVPNClient/
 .config/raycast/
+
+# Codex-managed system skills
+/.claude/skills/.system/
