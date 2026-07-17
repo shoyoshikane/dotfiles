@@ -8,6 +8,7 @@
     fd
     hyperfine
     jq
+    pngpaste
     ripgrep
     tlrc
     yazi

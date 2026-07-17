@@ -1,6 +1,16 @@
 local wezterm = require("wezterm")
+local act = wezterm.action
 
 local config = wezterm.config_builder()
+
+local username = wezterm.home_dir:match("([^/]+)$")
+local pngpaste = "/etc/profiles/per-user/" .. username .. "/bin/pngpaste"
+local paste_dir = "/tmp/wezterm-clipboard-images"
+
+local mkdir_success, _, mkdir_stderr = wezterm.run_child_process({ "/bin/mkdir", "-p", paste_dir })
+if not mkdir_success then
+	wezterm.log_error("Failed to create image paste directory: " .. (mkdir_stderr or "unknown error"))
+end
 
 config.automatically_reload_config = true
 config.font_size = 14.0
@@ -22,6 +32,29 @@ config.show_close_tab_button_in_tabs = false
 config.colors = {
 	tab_bar = {
 		inactive_tab_edge = "none",
+	},
+}
+
+config.keys = {
+	{
+		key = "v",
+		mods = "CMD",
+		action = wezterm.action_callback(function(window, pane)
+			local image_path = paste_dir .. "/paste-" .. wezterm.strftime("%Y%m%d-%H%M%S-%3f") .. ".png"
+			local success, _, stderr = wezterm.run_child_process({ pngpaste, image_path })
+
+			if success then
+				pane:send_paste(image_path)
+			else
+				local error_message = stderr or "unknown error"
+				local no_image = error_message:find("No image data found on the clipboard", 1, true)
+				if not no_image then
+					wezterm.log_error("Failed to save clipboard image: " .. error_message)
+					window:toast_notification("Image Paste", "Failed to save clipboard image", nil, 3000)
+				end
+				window:perform_action(act.PasteFrom("Clipboard"), pane)
+			end
+		end),
 	},
 }
 
