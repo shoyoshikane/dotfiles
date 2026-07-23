@@ -37,6 +37,11 @@ config.colors = {
 
 config.keys = {
 	{
+		key = "Enter",
+		mods = "CMD",
+		action = act.SendKey({ key = "Enter", mods = "CTRL" }),
+	},
+	{
 		key = "v",
 		mods = "CMD",
 		action = wezterm.action_callback(function(window, pane)
