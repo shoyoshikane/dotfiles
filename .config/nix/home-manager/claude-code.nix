@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   dotfilesPath = "${config.home.homeDirectory}/dotfiles";
   mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
@@ -64,7 +69,7 @@ in
     fi
 
     CODEX_CONFIG_TMP="$(mktemp "$CODEX_HOME/config.toml.XXXXXX")"
-    if awk '
+    if ${pkgs.gawk}/bin/awk '
       function write_submit() {
         if (!submit_written) {
           print "submit = \"ctrl-enter\""
