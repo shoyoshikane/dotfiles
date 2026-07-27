@@ -13,6 +13,7 @@ if not mkdir_success then
 end
 
 config.automatically_reload_config = true
+config.enable_kitty_keyboard = true
 config.font_size = 14.0
 config.font = wezterm.font("HackGen Console NF")
 config.use_ime = true
@@ -39,7 +40,7 @@ config.keys = {
 	{
 		key = "Enter",
 		mods = "CMD",
-		action = act.SendKey({ key = "Enter", mods = "CTRL" }),
+		action = act.SendString("\x1b[13;5u"),
 	},
 	{
 		key = "v",
