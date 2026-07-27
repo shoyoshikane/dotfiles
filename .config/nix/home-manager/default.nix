@@ -7,6 +7,7 @@
 {
   imports = [
     ./claude-code.nix
+    ./codex.nix
     sops-nix.homeManagerModules.sops
     ./dotfiles.nix
     ./fzf.nix
