@@ -43,11 +43,6 @@ config.keys = {
 		action = act.SendString("\x1b[3~"),
 	},
 	{
-		key = "Enter",
-		mods = "CMD",
-		action = act.SendString("\x1b[13;5u"),
-	},
-	{
 		key = "v",
 		mods = "CMD",
 		action = wezterm.action_callback(function(window, pane)

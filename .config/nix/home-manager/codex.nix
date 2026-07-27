@@ -30,21 +30,40 @@ in
     if ${pkgs.gawk}/bin/awk '
       function write_submit() {
         if (!submit_written) {
-          print "submit = \"ctrl-enter\""
+          print "submit = \"enter\""
           submit_written = 1
         }
       }
 
-      $0 == "[tui.keymap.composer]" {
-        in_composer = 1
-        composer_found = 1
-        print
-        next
+      function write_newline() {
+        if (!newline_written) {
+          print "insert_newline = \"shift-enter\""
+          newline_written = 1
+        }
       }
 
-      in_composer && /^\[/ {
-        write_submit()
+      function finish_section() {
+        if (in_composer) {
+          write_submit()
+        }
+        if (in_editor) {
+          write_newline()
+        }
         in_composer = 0
+        in_editor = 0
+      }
+
+      /^\[/ {
+        finish_section()
+        if ($0 == "[tui.keymap.composer]") {
+          in_composer = 1
+          composer_found = 1
+        } else if ($0 == "[tui.keymap.editor]") {
+          in_editor = 1
+          editor_found = 1
+        }
+        print
+        next
       }
 
       in_composer && /^submit[[:space:]]*=/ {
@@ -52,16 +71,24 @@ in
         next
       }
 
+      in_editor && /^insert_newline[[:space:]]*=/ {
+        write_newline()
+        next
+      }
+
       { print }
 
       END {
-        if (in_composer) {
-          write_submit()
-        }
+        finish_section()
         if (!composer_found) {
           print ""
           print "[tui.keymap.composer]"
-          print "submit = \"ctrl-enter\""
+          print "submit = \"enter\""
+        }
+        if (!editor_found) {
+          print ""
+          print "[tui.keymap.editor]"
+          print "insert_newline = \"shift-enter\""
         }
       }
     ' "$CODEX_CONFIG" > "$CODEX_CONFIG_TMP"; then
