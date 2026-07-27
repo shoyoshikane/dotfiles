@@ -38,6 +38,11 @@ config.colors = {
 
 config.keys = {
 	{
+		key = "mapped:Delete",
+		mods = "NONE",
+		action = act.SendString("\x1b[3~"),
+	},
+	{
 		key = "Enter",
 		mods = "CMD",
 		action = act.SendString("\x1b[13;5u"),
