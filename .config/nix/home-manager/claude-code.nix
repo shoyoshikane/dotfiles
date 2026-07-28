@@ -5,7 +5,6 @@
 }:
 let
   dotfilesPath = "${config.home.homeDirectory}/dotfiles";
-  mkLink = path: config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${path}";
 in
 {
   # ~/.config/claude/ は activation script で管理する。
@@ -20,20 +19,15 @@ in
     mkdir -p "$CLAUDE_DIR"
 
     for item in CLAUDE.md rules skills settings.local.json; do
+      if [ "$item" = "CLAUDE.md" ]; then
+        target="${dotfilesPath}/CLAUDE.md"
+      else
+        target="${dotfilesPath}/.claude/$item"
+      fi
       if [ -L "$CLAUDE_DIR/$item" ] || [ -e "$CLAUDE_DIR/$item" ]; then
         rm -rf "$CLAUDE_DIR/$item"
       fi
-      case "$item" in
-        CLAUDE.md)
-          ln -s "${mkLink "CLAUDE.md"}" "$CLAUDE_DIR/$item"
-          ;;
-        settings.local.json)
-          ln -s "${mkLink ".claude/settings.local.json"}" "$CLAUDE_DIR/$item"
-          ;;
-        *)
-          ln -s "${mkLink ".claude/$item"}" "$CLAUDE_DIR/$item"
-          ;;
-      esac
+      ln -s "$target" "$CLAUDE_DIR/$item"
     done
   '';
 
