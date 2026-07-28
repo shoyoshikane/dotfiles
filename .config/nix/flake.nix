@@ -71,6 +71,15 @@
           exit 1
         fi
       '';
+      mkDarwinSwitchScript = host: ''
+        sudo darwin-rebuild switch --flake "${flakePath}#${host}"
+      '';
+      mkDarwinBuildScript = host: ''
+        darwin-rebuild build --flake "${flakePath}#${host}"
+      '';
+      mkDarwinCheckScript = host: ''
+        darwin-rebuild check --flake "${flakePath}#${host}"
+      '';
       mkDarwinUpdateScript = host: ''
         repo_root="$(git -C "${flakePath}" rev-parse --show-toplevel)"
         lock_path=".config/nix/flake.lock"
@@ -145,21 +154,15 @@
                   vim
                   (writeShellApplication {
                     name = "darwin-switch";
-                    text = ''
-                      sudo darwin-rebuild switch --flake "${flakePath}#${hostName}"
-                    '';
+                    text = mkDarwinSwitchScript hostName;
                   })
                   (writeShellApplication {
                     name = "darwin-build";
-                    text = ''
-                      darwin-rebuild build --flake "${flakePath}#${hostName}"
-                    '';
+                    text = mkDarwinBuildScript hostName;
                   })
                   (writeShellApplication {
                     name = "darwin-check";
-                    text = ''
-                      darwin-rebuild check --flake "${flakePath}#${hostName}"
-                    '';
+                    text = mkDarwinCheckScript hostName;
                   })
                   (writeShellApplication {
                     name = "darwin-update";
@@ -199,17 +202,17 @@
       apps.${system} = {
         switch = mkApp "darwin-switch" "Apply the current host nix-darwin configuration" ''
           ${currentHostScript}
-          sudo darwin-rebuild switch --flake "${flakePath}#$host"
+          ${mkDarwinSwitchScript "$host"}
         '';
 
         build = mkApp "darwin-build" "Build the current host nix-darwin configuration" ''
           ${currentHostScript}
-          darwin-rebuild build --flake "${flakePath}#$host"
+          ${mkDarwinBuildScript "$host"}
         '';
 
         check = mkApp "darwin-check" "Check the current host nix-darwin configuration" ''
           ${currentHostScript}
-          darwin-rebuild check --flake "${flakePath}#$host"
+          ${mkDarwinCheckScript "$host"}
         '';
 
         update = mkApp "darwin-update" "Update flake inputs and apply the current host configuration" ''
