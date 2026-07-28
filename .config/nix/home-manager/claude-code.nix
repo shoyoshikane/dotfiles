@@ -14,9 +14,9 @@ in
     CLAUDE_DIR="$HOME/.config/claude"
 
     if [ -L "$CLAUDE_DIR" ]; then
-      rm "$CLAUDE_DIR"
+      run rm "$CLAUDE_DIR"
     fi
-    mkdir -p "$CLAUDE_DIR"
+    run mkdir -p "$CLAUDE_DIR"
 
     for item in CLAUDE.md rules skills settings.local.json; do
       if [ "$item" = "CLAUDE.md" ]; then
@@ -25,24 +25,24 @@ in
         target="${dotfilesPath}/.claude/$item"
       fi
       if [ -L "$CLAUDE_DIR/$item" ] || [ -e "$CLAUDE_DIR/$item" ]; then
-        rm -rf "$CLAUDE_DIR/$item"
+        run rm -rf "$CLAUDE_DIR/$item"
       fi
-      ln -s "$target" "$CLAUDE_DIR/$item"
+      run ln -s "$target" "$CLAUDE_DIR/$item"
     done
   '';
 
   home.activation.claudeHome = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     CLAUDE_HOME="$HOME/.claude"
-    mkdir -p "$CLAUDE_HOME"
+    run mkdir -p "$CLAUDE_HOME"
 
     if [ -L "$CLAUDE_HOME/skills" ] || [ -e "$CLAUDE_HOME/skills" ]; then
-      rm -rf "$CLAUDE_HOME/skills"
+      run rm -rf "$CLAUDE_HOME/skills"
     fi
-    ln -s "${dotfilesPath}/.claude/skills" "$CLAUDE_HOME/skills"
+    run ln -s "${dotfilesPath}/.claude/skills" "$CLAUDE_HOME/skills"
 
     if [ -L "$CLAUDE_HOME/keybindings.json" ] || [ -e "$CLAUDE_HOME/keybindings.json" ]; then
-      rm -f "$CLAUDE_HOME/keybindings.json"
+      run rm -f "$CLAUDE_HOME/keybindings.json"
     fi
-    ln -s "${dotfilesPath}/.claude/keybindings.json" "$CLAUDE_HOME/keybindings.json"
+    run ln -s "${dotfilesPath}/.claude/keybindings.json" "$CLAUDE_HOME/keybindings.json"
   '';
 }
