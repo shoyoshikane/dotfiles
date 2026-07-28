@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  dotfilesRelPath,
   ...
 }:
 let
-  dotfilesPath = "${config.home.homeDirectory}/dotfiles";
+  dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelPath}";
 in
 {
   # ~/.config/claude/ は activation script で管理する。

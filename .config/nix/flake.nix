@@ -42,7 +42,10 @@
     }:
     let
       system = "aarch64-darwin";
-      flakePath = "$HOME/dotfiles/.config/nix";
+      # リポジトリの clone 先($HOME からの相対パス)。
+      # home-manager 側の各モジュールへも extraSpecialArgs で渡す。
+      dotfilesRelPath = "dotfiles";
+      flakePath = "$HOME/${dotfilesRelPath}/.config/nix";
       hosts = {
         gift = ./hosts/gift;
       };
@@ -169,7 +172,7 @@
                   useUserPackages = true;
                   backupFileExtension = "backup";
                   extraSpecialArgs = {
-                    inherit sops-nix username;
+                    inherit sops-nix username dotfilesRelPath;
                   };
                   users.${username} = import ./home-manager;
                 };

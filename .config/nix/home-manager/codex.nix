@@ -2,10 +2,11 @@
   config,
   lib,
   pkgs,
+  dotfilesRelPath,
   ...
 }:
 let
-  dotfilesPath = "${config.home.homeDirectory}/dotfiles";
+  dotfilesPath = "${config.home.homeDirectory}/${dotfilesRelPath}";
 in
 {
   home.activation.codexHome = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
