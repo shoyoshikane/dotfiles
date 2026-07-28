@@ -32,3 +32,8 @@ if [[ -z "$selected_path" ]]; then
 fi
 
 cd "$selected_path" || return 1
+
+# widget として呼ばれた場合は cd 後のプロンプトを描き直す
+if zle; then
+  zle reset-prompt
+fi
