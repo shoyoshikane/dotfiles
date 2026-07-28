@@ -6,9 +6,9 @@
 .aws/
 .kube/
 .terraform.d/
-.config/.claude/settings.local.json
+.claude/settings.local.json
 .config/AWSVPNClient/
 .config/raycast/
 
 # Codex-managed system skills
-/.claude/skills/.system/
+.claude/skills/.system/
