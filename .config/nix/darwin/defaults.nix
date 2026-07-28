@@ -28,8 +28,5 @@
 
   system.defaults.controlcenter.BatteryShowPercentage = true;
 
-  environment.etc."pam.d/sudo_local".text = ''
-    # auth       sufficient     pam_tid.so
-    auth       sufficient     pam_tid.so
-  '';
+  security.pam.services.sudo_local.touchIdAuth = true;
 }
