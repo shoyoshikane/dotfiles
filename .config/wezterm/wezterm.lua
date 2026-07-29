@@ -36,7 +36,65 @@ config.colors = {
 	},
 }
 
+config.leader = {
+	key = ";",
+	mods = "CTRL",
+	timeout_milliseconds = 2000,
+}
+
+local function activate_or_split_pane(direction)
+	return wezterm.action_callback(function(window, pane)
+		if pane:tab():get_pane_direction(direction) then
+			window:perform_action(act.ActivatePaneDirection(direction), pane)
+		else
+			window:perform_action(act.SplitPane({ direction = direction }), pane)
+		end
+	end)
+end
+
 config.keys = {
+	{
+		key = "e",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			local pane_count = #pane:tab():panes()
+			if pane_count == 2 then
+				window:perform_action(act.RotatePanes("Clockwise"), pane)
+			elseif pane_count > 2 then
+				window:perform_action(act.PaneSelect({ mode = "SwapWithActive" }), pane)
+			end
+		end),
+	},
+	{
+		key = "x",
+		mods = "LEADER",
+		action = act.CloseCurrentPane({ confirm = true }),
+	},
+	{
+		key = "h",
+		mods = "LEADER",
+		action = activate_or_split_pane("Left"),
+	},
+	{
+		key = "j",
+		mods = "LEADER",
+		action = activate_or_split_pane("Down"),
+	},
+	{
+		key = "k",
+		mods = "LEADER",
+		action = activate_or_split_pane("Up"),
+	},
+	{
+		key = "l",
+		mods = "LEADER",
+		action = activate_or_split_pane("Right"),
+	},
+	{
+		key = "s",
+		mods = "LEADER",
+		action = act.ActivateKeyTable({ name = "resize_pane", one_shot = false }),
+	},
 	{
 		key = "mapped:Delete",
 		mods = "NONE",
@@ -64,8 +122,32 @@ config.keys = {
 	},
 }
 
+config.key_tables = {
+	resize_pane = {
+		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+		{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+		{ key = "Escape", action = "PopKeyTable" },
+		{ key = "[", mods = "CTRL", action = "PopKeyTable" },
+		{ key = "q", action = "PopKeyTable" },
+	},
+}
+
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
+
+wezterm.on("update-status", function(window)
+	if window:active_key_table() == "resize_pane" then
+		window:set_right_status(wezterm.format({
+			{ Foreground = { Color = "#80EBDF" } },
+			{ Attribute = { Intensity = "Bold" } },
+			{ Text = "  󰩨 resize  " },
+		}))
+	else
+		window:set_right_status("")
+	end
+end)
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	local background = "#5c6d74"
