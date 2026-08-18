@@ -19,6 +19,7 @@
 
   system.defaults.NSGlobalDomain.AppleInterfaceStyle = "Dark";
   system.defaults.dock.autohide = true;
+  system.defaults.dock.expose-group-apps = true;
   system.defaults.dock.show-recents = false;
 
   system.defaults.menuExtraClock.ShowDate = 0; # 0 = when space allows
