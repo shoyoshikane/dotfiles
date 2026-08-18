@@ -43,8 +43,10 @@
     # Infrastructure tools
     argocd
     awscli2
+    go
     kubectl
     kubernetes-helm
-    terraform
+    mise
+    tfenv
   ];
 }
