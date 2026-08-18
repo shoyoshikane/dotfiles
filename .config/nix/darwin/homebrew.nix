@@ -19,6 +19,7 @@
     casks = [
       "aws-vpn-client"
       "claude"
+      "docker-desktop"
       "font-hackgen-nerd"
       "karabiner-elements"
       "keycastr"
