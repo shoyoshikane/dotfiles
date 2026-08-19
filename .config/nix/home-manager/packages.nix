@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, llm-agents, ... }:
+let
+  llmPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   home.packages = with pkgs; [
     # Shell tools
@@ -37,8 +40,8 @@
     sops
 
     # AI coding agents
-    llm-agents.claude-code
-    llm-agents.codex
+    llmPackages.claude-code
+    llmPackages.codex
 
     # Infrastructure tools
     argocd

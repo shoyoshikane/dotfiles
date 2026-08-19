@@ -51,7 +51,6 @@
       };
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ llm-agents.overlays.default ];
         config.allowUnfree = true;
       };
       treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
@@ -117,7 +116,6 @@
             {
               nixpkgs.hostPlatform = system;
               nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [ llm-agents.overlays.default ];
             }
 
             (
@@ -175,7 +173,7 @@
                   useUserPackages = true;
                   backupFileExtension = "backup";
                   extraSpecialArgs = {
-                    inherit sops-nix username dotfilesRelPath;
+                    inherit llm-agents sops-nix username dotfilesRelPath;
                   };
                   users.${username} = import ./home-manager;
                 };

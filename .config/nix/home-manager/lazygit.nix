@@ -10,10 +10,10 @@
         allBranchesLogCmds = [
           "git log --graph --color=always --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all"
         ];
-        pagers = [
+        diffRenderers = [
           {
             colorArg = "always";
-            pager = "delta --dark --paging=never";
+            command = "delta --dark --paging=never";
           }
         ];
       };
