@@ -29,6 +29,7 @@
       export PATH="/etc/profiles/per-user/$USER/bin:$PATH"
     '';
     initContent = ''
+      setopt HIST_REDUCE_BLANKS
       fpath=("$HOME/.config/zsh/rc/functions/aws" "$HOME/.config/zsh/rc/functions/ghq" $fpath)
       autoload -Uz set-aws-profile ghq-fzf-cd
       source "$HOME/.config/zsh/rc/bindkey.zsh"
