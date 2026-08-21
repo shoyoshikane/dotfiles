@@ -12,6 +12,8 @@ in
     source = mkLink ".config/karabiner/karabiner.json";
     force = true;
   };
+  # Herdr writes session state beside its config, so link only the managed file.
+  xdg.configFile."herdr/config.toml".source = mkLink ".config/herdr/config.toml";
   xdg.configFile."nvim".source = mkLink ".config/nvim";
   xdg.configFile."starship.toml".source = mkLink ".config/starship.toml";
   xdg.configFile."wezterm/wezterm.lua".source = mkLink ".config/wezterm/wezterm.lua";

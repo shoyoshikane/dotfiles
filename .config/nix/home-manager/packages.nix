@@ -40,6 +40,7 @@ in
     sops
 
     # AI coding agents
+    herdr
     llmPackages.claude-code
     llmPackages.codex
 
