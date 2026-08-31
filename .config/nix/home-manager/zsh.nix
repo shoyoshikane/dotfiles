@@ -30,6 +30,7 @@
     '';
     initContent = ''
       setopt HIST_REDUCE_BLANKS
+      eval "$(mise activate zsh)"
       fpath=("$HOME/.config/zsh/rc/functions/aws" "$HOME/.config/zsh/rc/functions/ghq" $fpath)
       autoload -Uz set-aws-profile ghq-fzf-cd
       source "$HOME/.config/zsh/rc/bindkey.zsh"
