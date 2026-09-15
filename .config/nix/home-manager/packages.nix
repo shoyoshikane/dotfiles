@@ -49,6 +49,7 @@ in
     awscli2
     go
     kubectl
+    kubectx
     kubernetes-helm
     mise
     tfenv

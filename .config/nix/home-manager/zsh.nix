@@ -21,6 +21,7 @@
     };
     shellAliases = {
       awsp = "set-aws-profile";
+      k = "kubectl";
       ll = "eza -la --git";
       tree = "eza --tree";
     };
