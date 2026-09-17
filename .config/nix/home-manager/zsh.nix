@@ -21,9 +21,14 @@
     };
     shellAliases = {
       awsp = "set-aws-profile";
-      k = "kubectl";
       ll = "eza -la --git";
       tree = "eza --tree";
+    };
+    zsh-abbr = {
+      enable = true;
+      abbreviations = {
+        k = "kubectl";
+      };
     };
     profileExtra = ''
       eval $(/opt/homebrew/bin/brew shellenv)
