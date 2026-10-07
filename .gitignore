@@ -10,5 +10,6 @@
 .config/AWSVPNClient/
 .config/raycast/
 
-# Codex-managed system skills
+# Automatically managed skills
 .claude/skills/.system/
+.claude/skills/synced/
