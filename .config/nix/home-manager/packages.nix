@@ -17,7 +17,6 @@ in
     yazi
 
     # Git tools
-    gh
     ghq
 
     # Editor

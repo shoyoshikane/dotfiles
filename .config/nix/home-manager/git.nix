@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   programs.git = {
     enable = true;
@@ -21,6 +22,12 @@
       };
     };
     ignores = [ "**/.claude/settings.local.json" ];
+  };
+
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper.enable = false;
+    extensions = [ pkgs.gh-stack ];
   };
 
   programs.delta = {
