@@ -35,13 +35,6 @@ in
 
       CODEX_CONFIG_TMP="$(mktemp "$CODEX_HOME/config.toml.XXXXXX")"
       if ${pkgs.gawk}/bin/awk '
-        function write_raw_output_mode() {
-          if (!raw_output_mode_written) {
-            print "raw_output_mode = true"
-            raw_output_mode_written = 1
-          }
-        }
-
         function write_submit() {
           if (!submit_written) {
             print "submit = \"enter\""
@@ -57,24 +50,18 @@ in
         }
 
         function finish_section() {
-          if (in_tui) {
-            write_raw_output_mode()
-          }
           if (in_composer) {
             write_submit()
           }
           if (in_editor) {
             write_newline()
           }
-          in_tui = in_composer = in_editor = 0
+          in_composer = in_editor = 0
         }
 
         /^\[/ {
           finish_section()
-          if ($0 == "[tui]") {
-            in_tui = 1
-            tui_found = 1
-          } else if ($0 == "[tui.keymap.composer]") {
+          if ($0 == "[tui.keymap.composer]") {
             in_composer = 1
             composer_found = 1
           } else if ($0 == "[tui.keymap.editor]") {
@@ -82,11 +69,6 @@ in
             editor_found = 1
           }
           print
-          next
-        }
-
-        in_tui && /^raw_output_mode[[:space:]]*=/ {
-          write_raw_output_mode()
           next
         }
 
@@ -104,11 +86,6 @@ in
 
         END {
           finish_section()
-          if (!tui_found) {
-            print ""
-            print "[tui]"
-            print "raw_output_mode = true"
-          }
           if (!composer_found) {
             print ""
             print "[tui.keymap.composer]"
