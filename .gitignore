@@ -12,4 +12,5 @@
 
 # Automatically managed skills
 .claude/skills/.system/
+.claude/skills/.trash/
 .claude/skills/synced/
